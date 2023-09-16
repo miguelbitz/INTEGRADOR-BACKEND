@@ -92,32 +92,4 @@ export class LikeDislikeDatabase extends BaseDatabase {
             return resultDB
     }
 
-    /*   public async findInteractionByUserAndPost(
-        userId: string,
-        postId: string
-      ): Promise<{ like: number } | undefined> {
-        const result = await BaseDatabase.connection(LikeDislikeDatabase.TABLE_LIKE_DISLIKE)
-          .select("like")
-          .where("user_id", userId)
-          .where("post_id", postId)
-          .first();
-    
-        return result;
-      }
-    
-      public async deleteInteraction(interactionId: string): Promise<void> {
-        await BaseDatabase.connection(LikeDislikeDatabase.TABLE_LIKE_DISLIKE)
-          .where("id", interactionId)
-          .del();
-      }
-    
-      public async addInteraction(userId: string, postId: string, like: number): Promise<void> {
-        await BaseDatabase.connection(LikeDislikeDatabase.TABLE_LIKE_DISLIKE)
-          .insert({
-            user_id: userId,
-            post_id: postId,
-            like: like ? 1 : 0
-          });
-      } */
-
 }
