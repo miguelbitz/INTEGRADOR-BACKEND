@@ -36,10 +36,11 @@ CREATE TABLE comments (
     likes INTEGER NOT NULL,
     dislikes INTEGER NOT NULL,
     created_at TEXT DEFAULT (DATETIME()) NOT NULL,
-    FOREIGN KEY (post_id) REFERENCES posts(id)
-    ON UPDATE CASCADE
-    ON DELETE CASCADE,
+    updated_at TEXT DEFAULT (DATETIME()) NOT NULL,
+    FOREIGN KEY (post_id) REFERENCES posts(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 
@@ -48,6 +49,14 @@ DROP TABLE posts;
 
 DROP TABLE users;
 DROP TABLE likes_dislikes;
+DROP TABLE comments;
 
+INSERT INTO comments (id, post_id, user_id,  content, likes, dislikes, created_at)
+VALUES
+    ('1234', '738cdac0-dbd1-438f-8118-af9ff17b6c83', '6f3524e6-cb8c-4acd-82d8-2ddb84d57024', 'funcionou?' , 0 , 0 , CURRENT_TIMESTAMP);
+
+SELECT * FROM comments
+WHERE (id = 1234);
+SELECT * FROM posts;
 SELECT * FROM users;
 

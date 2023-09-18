@@ -31,8 +31,6 @@ export class PostBusiness {
 
     const postsDB = await this.postDatabase.findPost(q);
 
-    
-
     const posts = await Promise.all(postsDB.map(async (postDB) => {
       const post = new Post(
         postDB.id,
@@ -41,8 +39,7 @@ export class PostBusiness {
         postDB.likes,
         postDB.dislikes,
         postDB.created_at,
-        postDB.updated_at,
-        []
+        postDB.updated_at
       );
 
       const findNickname = await this.userDatabase.findUserById(postDB.creator_id)
@@ -79,8 +76,7 @@ export class PostBusiness {
       0,
       0,
       new Date().toISOString(),
-      new Date().toISOString(),
-      []
+      new Date().toISOString()
     );
 
     const newPostDB = newPost.toDBModel()
@@ -144,9 +140,9 @@ export class PostBusiness {
       throw new NotFoundError("Post não encontrado");
     }
 
-    /* if (postDB.creator_id !== payload.id) {
+    if (postDB.creator_id !== payload.id) {
       throw new BadRequestError("Você não tem permissão para Deletar este post");
-    } */
+    }
 
     await this.postDatabase.deletePost(id);
 

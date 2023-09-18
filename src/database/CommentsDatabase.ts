@@ -4,21 +4,21 @@ import { BaseDatabase } from "./BaseDatabase";
 export class CommentsDatabase extends BaseDatabase {
   public static TABLE_COMMENTS = "comments";
 
-  public async getCommentsForPost(postId: string): Promise<CommentsDB[]> {
+  public async getCommentsFromPost(postId: string | undefined): Promise<CommentsDB[]> {
     const commentsDB: CommentsDB[] = await BaseDatabase
       .connection(CommentsDatabase.TABLE_COMMENTS)
-      .where("post_id", postId);
+      .where("post_id", "LIKE", `%${postId}%`);
 
     return commentsDB;
   }
 
-  public async findCommentById(id: string): Promise<CommentsDB | undefined> {
-    const [commentDB]: CommentsDB[] | undefined[] = await BaseDatabase
-      .connection(CommentsDatabase.TABLE_COMMENTS)
-      .where({ id });
+  public async getCommentById(id: string | undefined): Promise<CommentsDB> {
+    const [result] = await BaseDatabase
+        .connection(CommentsDatabase.TABLE_COMMENTS)
+        .where({id})
 
-    return commentDB;
-  }
+    return result;
+}
 
   public async insertComment(newCommentDB: CommentsDB): Promise<void> {
     await BaseDatabase
@@ -26,11 +26,13 @@ export class CommentsDatabase extends BaseDatabase {
       .insert(newCommentDB);
   }
 
-  public async updateComment(comment: CommentsDB): Promise<void> {
+  public async editComment(
+    id: string, newContent: string, updateTime: string
+  ): Promise<void> {
     await BaseDatabase
       .connection(CommentsDatabase.TABLE_COMMENTS)
-      .where("id", comment.id)
-      .update({ content: comment.content });
+      .update({ content: newContent, updated_at: updateTime})
+      .where({ id })
   }
 
 
