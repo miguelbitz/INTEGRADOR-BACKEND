@@ -18,7 +18,6 @@ export interface PostModel {
     dislikes: number,
     createdAt: string,
     updatedAt: string,
-    comments: CommentsModel[]
 }
 
 export interface PostDetails {
@@ -42,8 +41,7 @@ export class Post {
         private likes: number,
         private dislikes: number,
         private createdAt: string,
-        private updatedAt: string,
-        private comments: CommentsModel[]
+        private updatedAt: string
     ) {}
 
     public getId(): string {
@@ -102,14 +100,6 @@ export class Post {
         this.updatedAt = value;
     }
 
-    public getComments(): CommentsModel[] {
-        return this.comments;
-    }
-
-    public setComments(comments: CommentsModel[]): void {
-        this.comments = comments;
-    }
-
     public toDBModel(): PostDB {
         return {
             id: this.id,
@@ -131,7 +121,6 @@ export class Post {
             dislikes: this.dislikes,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
-            comments: this.comments,
         };
     }
 

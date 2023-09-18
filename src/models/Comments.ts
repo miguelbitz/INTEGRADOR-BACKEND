@@ -26,7 +26,7 @@ export interface CommentsDetails {
     createdAt: string;
     user: {
         id: string;
-        name: string;
+        nickname: string;
     };
 }
 
@@ -130,7 +130,7 @@ export class Comments {
             createdAt: this.createdAt,
             user: {
                 id: this.userId,
-                name: userName
+                nickname: userName
             },
         };
     }
