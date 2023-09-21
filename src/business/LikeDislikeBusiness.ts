@@ -2,7 +2,7 @@
 import { BadRequestError } from "../errors/BadRequestError"
 import { TokenManager } from "../services/TokenManager"
 import { NotFoundError } from "../errors/NotFoundError"
-import { LikeDislikePostInputDTO, LikeDislikePostOutputDTO } from "../dtos/post/likeDislikePost.dto"
+import { LikeDislikePostInputDTO, LikeDislikePostOutputDTO } from "../dtos/posts/likeDislikePost.dto"
 import { LikeDislikeDatabase } from "../database/LikeDislikeDatabase"
 import { LikeDislikeDB } from "../models/LikeDislike"
 import { throws } from "assert"

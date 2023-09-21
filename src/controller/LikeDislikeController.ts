@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { BaseError } from "../errors/BaseError"
 import { ZodError } from "zod"
-import { LikeDislikePostSchema } from "../dtos/post/likeDislikePost.dto"
+import { LikeDislikePostSchema } from "../dtos/posts/likeDislikePost.dto"
 import { LikeDislikeBusiness } from "../business/LikeDislikeBusiness"
 
 

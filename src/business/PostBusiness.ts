@@ -1,14 +1,14 @@
 import { PostDatabase } from "../database/PostDatabase"
 import { UserDatabase } from "../database/UserDatabase"
-import { CreatePostInputDTO, CreatePostOutputDTO } from "../dtos/post/createPost.dto"
-import { GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/post/getPosts.dto"
+import { CreatePostInputDTO, CreatePostOutputDTO } from "../dtos/posts/createPost.dto"
+import { GetPostsInputDTO, GetPostsOutputDTO } from "../dtos/posts/getPosts.dto"
 import { BadRequestError } from "../errors/BadRequestError"
 import { Post } from "../models/Post"
 import { IdGenerator } from "../services/IdGenerator"
 import { TokenManager } from "../services/TokenManager"
-import { EditPostInputDTO, EditPostOutputDTO } from "../dtos/post/editPost.dto"
+import { EditPostInputDTO, EditPostOutputDTO } from "../dtos/posts/editPost.dto"
 import { NotFoundError } from "../errors/NotFoundError"
-import { DeletePostInputDTO, DeletePostOutputDTO } from "../dtos/post/deletePost.dto"
+import { DeletePostInputDTO, DeletePostOutputDTO } from "../dtos/posts/deletePost.dto"
 
 export class PostBusiness {
   constructor(

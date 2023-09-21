@@ -1,11 +1,11 @@
 import { Request, Response } from "express"
 import { BaseError } from "../errors/BaseError"
 import { ZodError } from "zod"
-import { GetPostsSchema } from "../dtos/post/getPosts.dto"
+import { GetPostsSchema } from "../dtos/posts/getPosts.dto"
 import { PostBusiness } from "../business/PostBusiness"
-import { CreatePostSchema } from "../dtos/post/createPost.dto"
-import { EditPostSchema } from "../dtos/post/editPost.dto"
-import { DeletePostSchema } from "../dtos/post/deletePost.dto"
+import { CreatePostSchema } from "../dtos/posts/createPost.dto"
+import { EditPostSchema } from "../dtos/posts/editPost.dto"
+import { DeletePostSchema } from "../dtos/posts/deletePost.dto"
 
 
 
