@@ -1,13 +1,18 @@
 import { UserDatabase } from "../database/UserDatabase"
-import { GetUsersInputDTO, GetUsersOutputDTO } from "../dtos/user/getUsers.dto"
-import { LoginInputDTO, LoginOutputDTO } from "../dtos/user/login.dto"
-import { SignupInputDTO, SignupOutputDTO } from "../dtos/user/signup.dto"
+import { DeleteUserInputDTO, DeleteUserOutputDTO } from "../dtos/users/deleteUsers.dto"
+import { EditUserEmailInputDTO, EditUserEmailOutputDTO } from "../dtos/users/editUserEmail.dto"
+import { EditUserNicknameInputDTO, EditUserNicknameOutputDTO} from "../dtos/users/editUserNickname.dto"
+import { EditUserPasswordInputDTO, EditUserPasswordOutputDTO } from "../dtos/users/editUserPassword.dto"
+import { GetUsersInputDTO, GetUsersOutputDTO } from "../dtos/users/getUsers.dto"
+import { GetUserByIdInputDTO, GetUserByIdOutputDTO } from "../dtos/users/getUsersById.dto"
+import { LoginInputDTO, LoginOutputDTO } from "../dtos/users/login.dto"
+import { SignupInputDTO, SignupOutputDTO } from "../dtos/users/signup.dto"
 import { BadRequestError } from "../errors/BadRequestError"
 import { NotFoundError } from "../errors/NotFoundError"
-import { USER_ROLES, User } from "../models/User"
+import { USER_ROLES, User, TokenPayload } from "../models/User"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
-import { TokenManager, TokenPayload } from "../services/TokenManager"
+import { TokenManager} from "../services/TokenManager"
 
 export class UserBusiness {
   constructor(
@@ -28,9 +33,9 @@ export class UserBusiness {
       throw new BadRequestError("token invalido")
     }
 
-    /* if(payload.role !== USER_ROLES.ADMIN){
+    if(payload.role !== USER_ROLES.ADMIN){
       throw new BadRequestError("somente admins podem acessar esse recurso")
-    } */
+    }
 
     const usersDB = await this.userDatabase.findUsers(q)
 
@@ -52,10 +57,49 @@ export class UserBusiness {
     return output
   }
 
+  public getUserById = async (
+    input: GetUserByIdInputDTO
+  ): Promise<GetUserByIdOutputDTO> => {
+    const { id, token } = input
+
+    const payload = this.tokenManager.getPayload(token)
+
+    if (payload === null) {
+        throw new BadRequestError("token inválido")
+    } 
+
+    const userDB = await this.userDatabase.findUserById(id)
+
+    if (!userDB) {
+      throw new NotFoundError("id não existe")
+    }
+
+    const user = new User(
+      userDB.id,
+      userDB.nickname,
+      userDB.email,
+      userDB.password,
+      userDB.role,
+      userDB.created_at
+    )
+
+    const output: GetUserByIdOutputDTO = {
+      user: user.toBusinessModel()
+    }
+
+    return output
+  }
+
   public signup = async (
     input: SignupInputDTO
   ): Promise<SignupOutputDTO> => {
     const { nickname, email, password } = input
+
+    const isEmailRegistered = await this.userDatabase.findUserByEmail(email)
+
+    if (isEmailRegistered) {
+      throw new BadRequestError("e-mail já existe")
+    }
 
     const id = this.idGenerator.generate()
 
@@ -75,7 +119,7 @@ export class UserBusiness {
 
     const tokenPayload: TokenPayload = {
       id: newUser.getId(),
-      name: newUser.getNickname(),
+      nickname: newUser.getNickname(),
       role: newUser.getRole()
     }
 
@@ -110,7 +154,7 @@ export class UserBusiness {
 
     const tokenPayload: TokenPayload = {
       id: userDB.id,
-      name:  userDB.nickname,
+      nickname:  userDB.nickname,
       role:  userDB.role
     }
 
@@ -123,4 +167,125 @@ export class UserBusiness {
 
     return output
   }
+
+  public editUserNickname = async (
+    input: EditUserNicknameInputDTO
+  ): Promise<EditUserNicknameOutputDTO> => {
+    const { id, newNickname, token } = input
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
+    }
+
+    const userDB = await this.userDatabase.findUserById(id);
+
+    if (!userDB) {
+      throw new NotFoundError("User não encontrado");
+    }
+
+    if (userDB.id !== payload.id) {
+      throw new BadRequestError("Você não tem permissão para editar este user");
+    }
+
+    await this.userDatabase.editUserNickname(id, newNickname)
+
+    const output: EditUserNicknameOutputDTO = {
+      message: "Nickname editado com sucesso",
+      newNickname: newNickname
+    }
+
+    return output;
+  }
+
+  public editUserEmail = async (
+    input: EditUserEmailInputDTO
+  ): Promise<EditUserEmailOutputDTO> => {
+    const { id, newEmail, token } = input
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
+    }
+
+    const userDB = await this.userDatabase.findUserById(id);
+
+    if (!userDB) {
+      throw new NotFoundError("User não encontrado");
+    }
+
+    if (userDB.id !== payload.id) {
+      throw new BadRequestError("Você não tem permissão para editar este user");
+    }
+
+    await this.userDatabase.editUserEmail(id, newEmail)
+
+    const output: EditUserEmailOutputDTO = {
+      message: "Email editado com sucesso",
+      newEmail: newEmail
+    }
+
+    return output;
+  }
+
+  public editUserPassword = async (
+    input: EditUserPasswordInputDTO
+  ): Promise<EditUserPasswordOutputDTO> => {
+    const { id, newPassword, token } = input
+
+    const payload = this.tokenManager.getPayload(token);
+
+    if (!payload) {
+      throw new BadRequestError("Token inválido");
+    }
+
+    const userDB = await this.userDatabase.findUserById(id);
+
+    if (!userDB) {
+      throw new NotFoundError("User não encontrado");
+    }
+
+    if (userDB.id !== payload.id) {
+      throw new BadRequestError("Você não tem permissão para editar este user");
+    }
+
+    await this.userDatabase.editUserPassword(id, newPassword)
+
+    const output: EditUserPasswordOutputDTO = {
+      message: "Senha editada com sucesso",
+      newPassword: newPassword
+    }
+
+    return output;
+  }
+
+  public deleteUser = async (
+    input: DeleteUserInputDTO
+  ): Promise<DeleteUserOutputDTO> => {
+    const { idToDelete, token } = input
+
+    const payload = this.tokenManager.getPayload(token)
+
+    if (payload === null) {
+        throw new BadRequestError("token inválido")
+    }
+
+    if (payload.id !== idToDelete) {
+      throw new BadRequestError(
+          "somente quem criou a conta pode deletá-la"
+      )
+    }
+
+    await this.userDatabase.deleteUser(idToDelete)
+
+    const output: DeleteUserOutputDTO = {
+      message: "Deleção realizada com sucesso"
+    }
+
+    return output
+  }
+
+  
 }

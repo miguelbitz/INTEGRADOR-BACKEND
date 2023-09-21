@@ -52,4 +52,40 @@ export class UserDatabase extends BaseDatabase {
       .connection(UserDatabase.TABLE_USERS)
       .insert(newUserDB)
   }
+
+  public async editUserNickname(
+    id: string, newNickname: string
+  ): Promise<void> {
+    await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .update({ nickname: newNickname })
+      .where({ id })
+  }
+
+  public async editUserEmail(
+    id: string, newEmail: string
+  ): Promise<void> {
+    await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .update({ email: newEmail })
+      .where({ id })
+  }
+
+  public async editUserPassword(
+    id: string, newPassword: string
+  ): Promise<void> {
+    await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .update({ password: newPassword })
+      .where({ id })
+  }
+
+  public async deleteUser(
+    idToDelete: string
+  ): Promise<void> {
+    await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .delete()
+      .where({ id: idToDelete })
+  }
 }
