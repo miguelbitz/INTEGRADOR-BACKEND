@@ -28,7 +28,7 @@ describe("Testando deleteUser", () => {
     })
   })
 
-  test("deve retornar erro caso nao seja passado um token", () => {
+  test("deve retornar erro caso nao seja passado um token valido", () => {
     expect.assertions(3)
     try {
       const input = DeleteUserSchema.parse({

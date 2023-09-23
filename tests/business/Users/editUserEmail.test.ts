@@ -16,6 +16,7 @@ describe("Testando editUserEmail", () => {
     )
 
     test("deve editar email", async () => {
+        expect.assertions(1)
         const input = EditUserEmailSchema.parse({
             id: "id-mock-miguel",
             newEmail: "miguel2@gmail.com",

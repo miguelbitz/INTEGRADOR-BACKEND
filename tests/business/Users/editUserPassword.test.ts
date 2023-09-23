@@ -16,6 +16,7 @@ describe("Testando editUserPassword", () => {
     )
 
     test("deve editar password", async () => {
+        expect.assertions(1)
         const input = EditUserPasswordSchema.parse({
             id: "id-mock-miguel",
             newPassword: "mig1234",
