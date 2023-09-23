@@ -4,7 +4,7 @@ import { LikeDislikeController } from "../controller/LikeDislikeController"
 import { LikeDislikeDatabase } from "../database/LikeDislikeDatabase"
 import { TokenManager } from "../services/TokenManager"
 
-export const likeDislikeRouter = express.Router()
+export const likeDislikeCommentRouter = express.Router()
 
 const likeDislikeController = new LikeDislikeController(
     new LikeDislikeBusiness(
@@ -13,5 +13,5 @@ const likeDislikeController = new LikeDislikeController(
     )
 )
 
-likeDislikeRouter.put("/:id/like", likeDislikeController.likeDislikePost)
+likeDislikeCommentRouter.put("/:id/like", likeDislikeController.likeDislikeComment)
 

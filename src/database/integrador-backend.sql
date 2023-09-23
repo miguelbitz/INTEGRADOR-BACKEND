@@ -31,6 +31,15 @@ CREATE TABLE
     );
 
 CREATE TABLE
+    likes_dislikes_comment (
+        user_id TEXT NOT NULL,
+        comment_id TEXT NOT NULL,
+        like INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (comment_id) REFERENCES comments(id) ON UPDATE CASCADE ON DELETE CASCADE
+    );
+
+CREATE TABLE
     comments (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
         post_id TEXT NOT NULL,
@@ -48,7 +57,7 @@ DROP TABLE posts;
 
 DROP TABLE users;
 
-DROP TABLE likes_dislikes;
+DROP TABLE likes_dislikes_comment;
 
 DROP TABLE comments;
 
@@ -56,7 +65,7 @@ INSERT INTO
     users (
         id,
         nickname,
-        email, 
+        email,
         password,
         role,
         created_at
@@ -95,4 +104,5 @@ SELECT * FROM comments WHERE (id = 1234);
 SELECT * FROM posts;
 
 SELECT * FROM users;
+
 SELECT * FROM likes_dislikes;

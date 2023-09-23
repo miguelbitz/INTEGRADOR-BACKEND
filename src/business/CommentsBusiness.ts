@@ -32,8 +32,6 @@ export class CommentsBusiness {
 
         const commentsDB = await this.commentsDatabase.getCommentsFromPost(postId);
 
-        console.log(commentsDB)
-
         if (!commentsDB) {
             throw new NotFoundError("sem comentarios")
         } else {
