@@ -16,6 +16,7 @@ describe("Testando editUserNickname", () => {
     )
 
     test("deve editar nickname", async () => {
+        expect.assertions(1)
         const input = EditUserNicknameSchema.parse({
             id: "id-mock-miguel",
             newNickname: "miguelbitz-new",

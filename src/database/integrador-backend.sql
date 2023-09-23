@@ -95,3 +95,4 @@ SELECT * FROM comments WHERE (id = 1234);
 SELECT * FROM posts;
 
 SELECT * FROM users;
+SELECT * FROM likes_dislikes;
