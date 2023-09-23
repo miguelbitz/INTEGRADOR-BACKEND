@@ -1,5 +1,5 @@
-import { CommentsDatabase } from "../database/CommentsDatabase"; // Importe a classe CommentDatabase apropriada
-import { Comments, CommentsDB } from "../models/Comments";
+import { CommentsDatabase } from "../database/CommentsDatabase";
+import { Comments } from "../models/Comments";
 import { IdGenerator } from "../services/IdGenerator";
 import { TokenManager } from "../services/TokenManager";
 import { CreateCommentInputDTO, CreateCommentOutputDTO } from "../dtos/comments/createComment.dto";
@@ -32,31 +32,26 @@ export class CommentsBusiness {
 
         const commentsDB = await this.commentsDatabase.getCommentsFromPost(postId);
 
-        if (!commentsDB) {
-            throw new NotFoundError("sem comentarios")
-        } else {
-            const comments = await Promise.all(commentsDB.map(async (commentDB) => {
-                const comment = new Comments(
-                    commentDB.id,
-                    commentDB.post_id,
-                    commentDB.user_id,
-                    commentDB.content,
-                    commentDB.likes,
-                    commentDB.dislikes,
-                    commentDB.created_at
-                );
+        const comments = await Promise.all(commentsDB.map(async (commentDB) => {
+            const comment = new Comments(
+                commentDB.id,
+                commentDB.post_id,
+                commentDB.user_id,
+                commentDB.content,
+                commentDB.likes,
+                commentDB.dislikes,
+                commentDB.created_at
+            );
 
-                const findNickname = await this.userDatabase.findUserById(commentDB.user_id)
+            const findNickname = await this.userDatabase.findUserById(commentDB.user_id)
 
-                const creatorName = findNickname?.nickname ?? "Nome Desconhecido";
-                return comment.toCommentDetails(creatorName);
-            }));
+            const creatorName = findNickname?.nickname ?? "Nome Desconhecido";
+            return comment.toCommentDetails(creatorName);
+        }));
 
-            const output: GetCommentsFromPostOutputDTO = comments;
+        const output: GetCommentsFromPostOutputDTO = comments;
 
-            return output
-        }
-
+        return output
     };
 
     public getCommentsById = async (
@@ -70,6 +65,8 @@ export class CommentsBusiness {
         }
 
         const commentDB = await this.commentsDatabase.getCommentById(id);
+
+        console.log(commentDB)
 
         if (!commentDB) {
             throw new NotFoundError("Comentário não encontrado");
@@ -99,6 +96,7 @@ export class CommentsBusiness {
         input: CreateCommentInputDTO
     ): Promise<CreateCommentOutputDTO> => {
         const { postId, content, token } = input;
+        
         const payload = this.tokenManager.getPayload(token)
 
         if (!payload) {
@@ -108,8 +106,6 @@ export class CommentsBusiness {
         const commentId = this.idGenerator.generate();
 
         const userId = payload.id ?? "Id Desconhecido";
-
-        console.log(userId)
 
         const newComment = new Comments(
             commentId,
@@ -140,14 +136,6 @@ export class CommentsBusiness {
 
         if (!payload) {
             throw new BadRequestError("Token inválido");
-        }
-
-        if(!newContent) {
-            throw new BadRequestError("newContent is required");
-        }
-
-        if(typeof newContent !== 'string') {
-            throw new BadRequestError("newContent must be a string");
         }
 
         const commentDB = await this.commentsDatabase.getCommentById(commentId);
@@ -186,11 +174,11 @@ export class CommentsBusiness {
         const commentDB = await this.commentsDatabase.getCommentById(commentId);
 
         if (!commentDB) {
-            throw new NotFoundError("Post não encontrado");
+            throw new NotFoundError("Comentario não encontrado");
         }
 
         if (commentDB.user_id !== payload.id) {
-          throw new BadRequestError("Você não tem permissão para Deletar este comentario");
+            throw new BadRequestError("Você não tem permissão para Deletar este comentario");
         }
 
         await this.commentsDatabase.deleteComment(commentId);

@@ -48,33 +48,35 @@ export class UserDatabaseMock extends BaseDatabase {
     return usersMock.find(user => user.email === email)
   }
 
-  public async insertUser(
-    newUserDB: UserDB
-  ): Promise<void> {
-
+  public async insertUser(newUserDB: UserDB): Promise<void> {
+    usersMock.push(newUserDB);
   }
 
-  public async editUserNickname(
-    id: string, newNickname: string
-  ): Promise<void> {
-
+  public async editUserNickname(id: string, newNickname: string): Promise<void> {
+    const userIndex = usersMock.findIndex(user => user.id === id);
+    if (userIndex > -1) {
+      usersMock[userIndex].nickname = newNickname;
+    }
   }
 
-  public async editUserEmail(
-    id: string, newEmail: string
-  ): Promise<void> {
-
+  public async editUserEmail(id: string, newEmail: string): Promise<void> {
+    const userIndex = usersMock.findIndex(user => user.id === id);
+    if (userIndex > -1) {
+      usersMock[userIndex].email = newEmail;
+    }
   }
 
-  public async editUserPassword(
-    id: string, newPassword: string
-  ): Promise<void> {
-
+  public async editUserPassword(id: string, newPassword: string): Promise<void> {
+    const userIndex = usersMock.findIndex(user => user.id === id);
+    if (userIndex > -1) {
+      usersMock[userIndex].password = newPassword;
+    }
   }
 
-  public async deleteUser(
-    idToDelete: string
-  ): Promise<void> {
-
+  public async deleteUser(idToDelete: string): Promise<void> {
+    const userIndex = usersMock.findIndex(user => user.id === idToDelete);
+    if (userIndex > -1) {
+      usersMock.splice(userIndex, 1);
+    }
   }
 }

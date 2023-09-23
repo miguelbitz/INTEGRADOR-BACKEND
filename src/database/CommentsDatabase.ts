@@ -12,7 +12,7 @@ export class CommentsDatabase extends BaseDatabase {
     return commentsDB;
   }
 
-  public async getCommentById(id: string | undefined): Promise<CommentsDB> {
+  public async getCommentById(id: string): Promise<CommentsDB | undefined> {
     const [result] = await BaseDatabase
         .connection(CommentsDatabase.TABLE_COMMENTS)
         .where({id})
