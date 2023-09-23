@@ -132,35 +132,35 @@ export class LikeDislikeDatabase extends BaseDatabase {
             .andWhere({ user_id: UserId })
     }
 
-    public postIncreaseLikeComment = async (id: string): Promise<void> => {
+    public commentIncreaseLike = async (id: string): Promise<void> => {
         await BaseDatabase
         .connection(LikeDislikeDatabase.TABLE_COMMENTS)
         .where({id})
         .increment("likes")
     }
 
-    public postDecreaseLikeComment = async (id: string): Promise<void> => {
+    public commentDecreaseLike = async (id: string): Promise<void> => {
         await BaseDatabase
         .connection(LikeDislikeDatabase.TABLE_COMMENTS)
         .where({id})
         .decrement("likes")
     }
 
-    public postIncreaseDislikeComment = async (id: string): Promise<void> => {
+    public commentIncreaseDislike = async (id: string): Promise<void> => {
         await BaseDatabase
         .connection(LikeDislikeDatabase.TABLE_COMMENTS)
         .where({id})
         .increment("dislikes")
     }
 
-    public postDecreaseDislikeComment = async (id: string): Promise<void> => {
+    public commentDecreaseDislike = async (id: string): Promise<void> => {
         await BaseDatabase
         .connection(LikeDislikeDatabase.TABLE_COMMENTS)
         .where({id})
         .decrement("dislikes")
     }
 
-    public postReverseLikeDislikeComment = async (id: string, like: number): Promise<void>=>{
+    public commentReverseLikeDislike = async (id: string, like: number): Promise<void>=>{
         if(like === 1){
             await BaseDatabase
             .connection(LikeDislikeDatabase.TABLE_COMMENTS)

@@ -23,7 +23,7 @@ describe("Testando getPosts", () => {
 
     const output = await postBusiness.getPosts(input)
 
-    expect(output).toHaveLength(1) // Alterado para 1
+    expect(output).toHaveLength(1)
     expect(output).toStrictEqual([{
       id: "id-post-mock-miguel",
       content: "content-miguel",

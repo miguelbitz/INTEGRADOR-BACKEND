@@ -90,7 +90,7 @@ export class LikeDislikeBusiness {
     const commentDB = await this.likeDislikeDatabase.findCommentById(CommentId);
 
     if (!commentDB) {
-      throw new NotFoundError("Commentario não encontrado");
+      throw new NotFoundError("Comentario não encontrado");
     }
 
     if (commentDB.user_id === payload.id) {
@@ -110,21 +110,21 @@ export class LikeDislikeBusiness {
     if(likeDislikeDB === undefined){
       await this.likeDislikeDatabase.insertLikeDislikeComment(commentLikeDislike)
       if(likeVal === 1){
-        await this.likeDislikeDatabase.postIncreaseLikeComment(CommentId)
+        await this.likeDislikeDatabase.commentIncreaseLike(CommentId)
       }else{
-        await this.likeDislikeDatabase.postIncreaseDislikeComment(CommentId)
+        await this.likeDislikeDatabase.commentIncreaseDislike(CommentId)
       }
     } else{
       if(likeVal == likeDislikeDB.like){
         await this.likeDislikeDatabase.deleteLikeDislikeComment(CommentId, UserId)
         if(likeVal === 1){
-          await this.likeDislikeDatabase.postDecreaseLikeComment(CommentId)
+          await this.likeDislikeDatabase.commentDecreaseLike(CommentId)
         }else{
-          await this.likeDislikeDatabase.postDecreaseDislikeComment(CommentId)
+          await this.likeDislikeDatabase.commentDecreaseDislike(CommentId)
         }
       }else{
         await this.likeDislikeDatabase.updateLikeDislikeComment(commentLikeDislike)
-        await this.likeDislikeDatabase.postReverseLikeDislikeComment(CommentId, likeVal)
+        await this.likeDislikeDatabase.commentReverseLikeDislike(CommentId, likeVal)
       }
     }
 

@@ -1,5 +1,3 @@
-import { CommentsModel } from "./Comments";
-
 export interface PostDB {
     id: string,
     creator_id: string,

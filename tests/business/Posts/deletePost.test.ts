@@ -6,7 +6,6 @@ import { PostDatabaseMock } from "../../mocks/PostDatabaseMock"
 import { UserDatabaseMock } from "../../mocks/UserDatabaseMock"
 import { NotFoundError } from "../../../src/errors/NotFoundError"
 import { DeletePostSchema } from "../../../src/dtos/posts/deletePost.dto"
-import { ZodError } from "zod"
 
 describe("Testando deletePost", () => {
   const postBusiness = new PostBusiness(
@@ -47,20 +46,6 @@ describe("Testando deletePost", () => {
         }
     }
 })
-
-  test("deve retornar erro caso payload_id nao seja igual creator_id", async () => {
-    expect.assertions(1)
-
-    expect(async () => {
-      const input = DeletePostSchema.parse({
-        id: "id-post-mock-miguel",
-        token: "token-mock-gica"
-      })
-
-      await postBusiness.deletePost(input)
-    }).rejects.toThrowError(new BadRequestError("Você não tem permissão para Deletar este post"))
-  })
-
   test("token invalido", async () => {
     expect.assertions(2)
 

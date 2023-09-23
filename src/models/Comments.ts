@@ -5,7 +5,7 @@ export interface CommentsDB {
     content: string,
     likes: number,
     dislikes: number,
-    created_at: string,
+    created_at: string
 }
 
 export interface CommentsModel {
@@ -15,7 +15,7 @@ export interface CommentsModel {
     content: string,
     likes: number,
     dislikes: number,
-    createdAt: string,
+    createdAt: string
 }
 
 export interface CommentsDetails {
