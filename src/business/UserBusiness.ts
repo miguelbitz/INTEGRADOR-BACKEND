@@ -110,7 +110,7 @@ export class UserBusiness {
       nickname,
       email,
       hashedPassword,
-      USER_ROLES.NORMAL,
+      USER_ROLES.ADMIN,
       new Date().toISOString()
     )
 

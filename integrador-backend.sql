@@ -79,6 +79,9 @@ VALUES (
         CURRENT_TIMESTAMP
     );
 
+DELETE FROM users WHERE id = 'admin';
+
+
 INSERT INTO
     comments (
         id,
