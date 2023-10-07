@@ -39,7 +39,7 @@ O projeto aborda as seguintes ferramentas:
 
 ## Get Users
 
-\```javascript
+```javascript
 // request GET /users Retorna todos usuários cadastrados
 // headers.authorization = "token jwt"
 // body JSON
@@ -52,11 +52,11 @@ O projeto aborda as seguintes ferramentas:
 {
   token: "um token jwt"
 }
-\```
+```
 
 ## SignUp
 
-\```javascript
+```javascript
 // request POST /users/signup Cadastra novo usuario
 // body JSON
 {
@@ -68,11 +68,11 @@ O projeto aborda as seguintes ferramentas:
 {
   token: "um token jwt"
 }
-\```
+```
 
 ## Login
 
-\```javascript
+```javascript
 // request POST /users/login Gerar token para logar
 // body JSON
 {
@@ -84,13 +84,13 @@ O projeto aborda as seguintes ferramentas:
 {
   token: "um token jwt"
 }
-\```
+```
 
 # Exemplo de Requisições de Posts
 
 ## Get Posts
 
-\```javascript
+```javascript
 // request GET /posts Retorna todos posts
 // headers.authorization = "token jwt"
 
@@ -99,11 +99,11 @@ O projeto aborda as seguintes ferramentas:
 [
     ...
 ]
-\```
+```
 
 ## Create Post
 
-\```javascript
+```javascript
 // request POST /posts Cria novo post
 // headers.authorization = "token jwt"
 // body JSON
@@ -113,11 +113,11 @@ O projeto aborda as seguintes ferramentas:
 
 // response
 // status 201 CREATED
-\```
+```
 
 ## Edit Post
 
-\```javascript
+```javascript
 // request PUT /posts/:id Edita conteudo do post
 // headers.authorization = "token jwt"
 // body JSON
@@ -127,17 +127,17 @@ O projeto aborda as seguintes ferramentas:
 
 // response
 // status 200 OK
-\```
+```
 
 ## Delete Post
 
-\```javascript
+```javascript
 // request DELETE /posts/:id Deleta post
 // headers.authorization = "token jwt"
 
 // response
 // status 200 OK
-\```
+```
 
 # Exemplo de Requisições de Like/Dislike
 
@@ -145,7 +145,7 @@ O projeto aborda as seguintes ferramentas:
 
 ### Like
 
-\```javascript
+```javascript
 // request PUT /posts/:id/like
 // headers.authorization = "token jwt"
 // body JSON
@@ -155,11 +155,11 @@ O projeto aborda as seguintes ferramentas:
 
 // response
 // status 200 OK
-\```
+```
 
 ### Dislike
 
-\```javascript
+```javascript
 // request PUT /posts/:id/like
 // headers.authorization = "token jwt"
 // body JSON
@@ -169,7 +169,7 @@ O projeto aborda as seguintes ferramentas:
 
 // response
 // status 200 OK
-\```
+```
 
 ## Documentação do Postman
 
