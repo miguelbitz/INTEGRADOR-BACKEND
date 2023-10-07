@@ -27,7 +27,7 @@ O projeto aborda as seguintes ferramentas:
 
 - /users
 
-### Requisições de Posts/Likes:
+### Requisições de Posts:
 
 - /posts
 
@@ -35,147 +35,195 @@ O projeto aborda as seguintes ferramentas:
 
 - /comments
 
-# Exemplo de Requisições de Users
+## 🚀 Endpoints
 
-## Get Users
+### 👥 User Endpoints
 
-```javascript
-// request GET /users Retorna todos usuários cadastrados
-// headers.authorization = "token jwt"
-// body JSON
-[
-    ...
-]
+1. **Get Users**
+    - Endpoint: `/users`
+    - Method: GET
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Response: List of all users.
 
-// response
-// status 200 OK
-{
-  token: "um token jwt"
-}
-```
+2. **Signup**
+    - Endpoint: `/signup`
+    - Method: POST
+    - Body:
+      ```json
+      {
+        "nickname": "your_nickname",
+        "email": "your_email",
+        "password": "your_password"
+      }
+      ```
 
-## SignUp
+3. **Signup Admin**
+    - Endpoint: `/signupAdmin`
+    - Method: POST
+    - Body:
+      ```json
+      {
+        "nickname": "admin_nickname",
+        "email": "admin_email",
+        "password": "admin_password"
+      }
+      ```
 
-```javascript
-// request POST /users/signup Cadastra novo usuario
-// body JSON
-{
-    ...
-}
+4. **Login**
+    - Endpoint: `/login`
+    - Method: POST
+    - Body:
+      ```json
+      {
+        "email": "your_email",
+        "password": "your_password"
+      }
+      ```
 
-// response
-// status 201 CREATED
-{
-  token: "um token jwt"
-}
-```
+5. **Get User By ID**
+    - Endpoint: `/users/:id`
+    - Method: GET
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-## Login
+6. **Delete User**
+    - Endpoint: `/users/:id`
+    - Method: DELETE
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-```javascript
-// request POST /users/login Gerar token para logar
-// body JSON
-{
-    ...
-}
+7. **Edit User Nickname**
+    - Endpoint: `/users/:id/nickname`
+    - Method: PUT
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "nickname": "new_nickname"
+      }
+      ```
 
-// response
-// status 200 OK
-{
-  token: "um token jwt"
-}
-```
+8. **Edit User Email**
+    - Endpoint: `/users/:id/email`
+    - Method: PUT
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "email": "new_email"
+      }
+      ```
 
-# Exemplo de Requisições de Posts
+9. **Edit User Password**
+    - Endpoint: `/users/:id/password`
+    - Method: PUT
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "password": "new_password"
+      }
+      ```
 
-## Get Posts
+### 📝 Posts Endpoints
 
-```javascript
-// request GET /posts Retorna todos posts
-// headers.authorization = "token jwt"
+1. **Get Posts**
+    - Endpoint: `/posts`
+    - Method: GET
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Response: List of all posts.
 
-// response
-// status 200 OK
-[
-    ...
-]
-```
+2. **Create Post**
+    - Endpoint: `/posts`
+    - Method: POST
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "content": "post_content"
+      }
+      ```
 
-## Create Post
+3. **Edit Post**
+    - Endpoint: `/posts/:id`
+    - Method: PUT
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "content": "updated_content"
+      }
+      ```
 
-```javascript
-// request POST /posts Cria novo post
-// headers.authorization = "token jwt"
-// body JSON
-{
-    ...
-}
+4. **Like/Dislike Post**
+    - Endpoint: `/posts/:id/likeDislike`
+    - Method: POST
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "like": true
+      }
+      ```
 
-// response
-// status 201 CREATED
-```
+5. **Delete Post**
+    - Endpoint: `/posts/:id`
+    - Method: DELETE
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-## Edit Post
+### 💬 Comments Endpoints
 
-```javascript
-// request PUT /posts/:id Edita conteudo do post
-// headers.authorization = "token jwt"
-// body JSON
-{
-    ...
-}
+1. **Get Comments From Post**
+    - Endpoint: `/posts/:id/comments`
+    - Method: GET
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-// response
-// status 200 OK
-```
+2. **Get Comment By ID**
+    - Endpoint: `/comments/:id`
+    - Method: GET
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-## Delete Post
+3. **Create Comment On Post**
+    - Endpoint: `/posts/:id/comments`
+    - Method: POST
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "content": "comment_content"
+      }
+      ```
 
-```javascript
-// request DELETE /posts/:id Deleta post
-// headers.authorization = "token jwt"
+4. **Edit Comment**
+    - Endpoint: `/comments/:id`
+    - Method: PUT
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "content": "updated_comment_content"
+      }
+      ```
 
-// response
-// status 200 OK
-```
+5. **Delete Comment**
+    - Endpoint: `/comments/:id`
+    - Method: DELETE
+    - Headers: Authorization: Bearer YOUR_TOKEN
 
-# Exemplo de Requisições de Like/Dislike
-
-## LikeDislike
-
-### Like
-
-```javascript
-// request PUT /posts/:id/like
-// headers.authorization = "token jwt"
-// body JSON
-{
-    ...
-}
-
-// response
-// status 200 OK
-```
-
-### Dislike
-
-```javascript
-// request PUT /posts/:id/like
-// headers.authorization = "token jwt"
-// body JSON
-{
-    ...
-}
-
-// response
-// status 200 OK
-```
+6. **Like/Dislike Comment**
+    - Endpoint: `/comments/:id/likeDislike`
+    - Method: POST
+    - Headers: Authorization: Bearer YOUR_TOKEN
+    - Body:
+      ```json
+      {
+        "like": true
+      }
+      ```
 
 ## Documentação do Postman
 
 [Link da API no POSTMAN](https://documenter.getpostman.com/view/26594213/2s9YJgTLMV)
 
-# Criado por:
+# 👤 Criado por:
 
 ## Miguel Alves
 
