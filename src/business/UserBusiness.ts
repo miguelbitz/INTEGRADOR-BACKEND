@@ -110,7 +110,7 @@ export class UserBusiness {
       nickname,
       email,
       hashedPassword,
-      USER_ROLES.ADMIN,
+      USER_ROLES.NORMAL,
       new Date().toISOString()
     )
 
@@ -132,6 +132,50 @@ export class UserBusiness {
 
     return output
   }
+
+  public signupAdmin = async (
+    input: SignupInputDTO
+  ): Promise<SignupOutputDTO> => {
+    const { nickname, email, password } = input;
+  
+    const isEmailRegistered = await this.userDatabase.findUserByEmail(email);
+  
+    if (isEmailRegistered) {
+      throw new BadRequestError("e-mail já existe");
+    }
+  
+    const id = this.idGenerator.generate();
+  
+    const hashedPassword = await this.hashManager.hash(password);
+  
+    const newAdmin = new User(
+      id,
+      nickname,
+      email,
+      hashedPassword,
+      USER_ROLES.ADMIN,
+      new Date().toISOString()
+    );
+  
+    const newAdminDB = newAdmin.toDBModel();
+    await this.userDatabase.insertUser(newAdminDB);
+  
+    const tokenPayload: TokenPayload = {
+      id: newAdmin.getId(),
+      nickname: newAdmin.getNickname(),
+      role: newAdmin.getRole()
+    };
+  
+    const token = this.tokenManager.createToken(tokenPayload);
+  
+    const output: SignupOutputDTO = {
+      message: "Admin cadastrado com sucesso",
+      token
+    };
+  
+    return output;
+  }
+  
 
   public login = async (
     input: LoginInputDTO

@@ -7,7 +7,7 @@ import { LoginSchema } from "../dtos/users/login.dto"
 import { SignupSchema } from "../dtos/users/signup.dto"
 import { GetUserByIdSchema } from "../dtos/users/getUsersById.dto"
 import { DeleteUserSchema } from "../dtos/users/deleteUsers.dto"
-import { EditUserNicknameSchema} from "../dtos/users/editUserNickname.dto"
+import { EditUserNicknameSchema } from "../dtos/users/editUserNickname.dto"
 import { EditUserPasswordSchema } from "../dtos/users/editUserPassword.dto"
 import { EditUserEmailSchema } from "../dtos/users/editUserEmail.dto"
 
@@ -42,7 +42,6 @@ export class UserController {
   public signup = async (req: Request, res: Response) => {
     try {
       const input = SignupSchema.parse({
-        //id: req.body.id,
         nickname: req.body.nickname,
         email: req.body.email,
         password: req.body.password
@@ -63,6 +62,31 @@ export class UserController {
       }
     }
   }
+
+  public signupAdmin = async (req: Request, res: Response) => {
+    try {
+      const input = SignupSchema.parse({
+        nickname: req.body.nickname,
+        email: req.body.email,
+        password: req.body.password
+      });
+
+      const output = await this.userBusiness.signupAdmin(input);
+
+      res.status(201).send(output);
+    } catch (error) {
+      console.log(error);
+
+      if (error instanceof ZodError) {
+        res.status(400).send(error.issues);
+      } else if (error instanceof BaseError) {
+        res.status(error.statusCode).send(error.message);
+      } else {
+        res.status(500).send("Erro inesperado");
+      }
+    }
+  };
+
 
   public login = async (req: Request, res: Response) => {
     try {

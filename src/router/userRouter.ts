@@ -20,6 +20,7 @@ const userController = new UserController(
 userRouter.get("/", userController.getUsers)
 userRouter.get("/:id", userController.getUserById)
 userRouter.post("/signup", userController.signup)
+userRouter.post("/signupAdmin", userController.signupAdmin)
 userRouter.post("/login", userController.login)
 userRouter.put("/editNickname/:id", userController.editUserNickname)
 userRouter.put("/editEmail/:id", userController.editUserEmail)
